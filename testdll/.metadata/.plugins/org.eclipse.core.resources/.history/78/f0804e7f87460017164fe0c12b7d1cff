@@ -1,0 +1,41 @@
+package com.utry.javaCallDLL;
+import java.io.File;
+import java.io.IOException;
+
+public class AlgorithmDLL {
+	
+	
+	static
+	{
+		System.loadLibrary("test-lib0");
+	}
+	
+	public native float[] DPM(String testImagePath,String modelPath);
+	 
+	public static void main(String[] args) throws Exception {
+		AlgorithmDLL ad = new AlgorithmDLL();
+		
+		String modelPath="person_final.txt";
+		//String jpgPath="03.jpg";
+		float resultAll[]=new float[7];
+	
+		
+        File file = new File("\\temp");
+        File [] files = file.listFiles();
+        for(int k=0;k<10;k++)
+        {
+        	for (int i = 0; i < files.length; i++)
+        	{ 
+        		File file1 = files[i];
+        		String jpgPath=file1.getName();                       								
+        		long startTime = System.currentTimeMillis();
+        		resultAll=ad.DPM(jpgPath,modelPath);
+        		for(int j=0;j<7;j++) System.out.print("resultAll:  "+resultAll[j]);
+        		long finishTime = System.currentTimeMillis();
+        		System.out.print("   Total time:"+(finishTime-startTime)/1000F);
+        		System.out.println("s");
+        	}
+        }
+	}
+
+}
